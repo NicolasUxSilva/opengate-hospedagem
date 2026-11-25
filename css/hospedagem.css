@@ -1,0 +1,210 @@
+/* =========================================
+   HOSPEDAGEM — componentes próprios desta página.
+   Base (tokens, botões, selos, seções, cards escuros, formulário) é a mesma
+   da página de integradores; aqui ficam só as variações para hospedagem.
+========================================= */
+
+/* ---------- Hero (continua o criativo "Check-in sem chave no seu imóvel de temporada.") ---------- */
+
+.hero--stay {
+  background: linear-gradient(180deg, #ffffff 0%, #f1f6fa 100%);
+}
+
+/* Destaque verde do título, como no anúncio. */
+.hl {
+  padding: 0 0.14em;
+  border-radius: 10px;
+  background: var(--green-form);
+  color: var(--navy-900);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.pill-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+  padding: 8px 18px 8px 8px;
+  border-radius: 999px;
+  background: var(--white);
+  box-shadow: 0 6px 18px rgba(6, 40, 59, 0.08);
+  color: var(--navy-800);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.pill-check svg {
+  box-sizing: content-box;
+  width: 20px;
+  height: 20px;
+  padding: 8px;
+  border-radius: 50%;
+  background: var(--green-500);
+}
+
+.hero__media--stay {
+  display: flex;
+  justify-content: center;
+}
+
+.hero__media--stay img {
+  max-width: 600px;
+  aspect-ratio: auto;
+  object-fit: contain;
+  /* Funde as bordas da ilustração (recortada do criativo) com o fundo da seção. */
+  -webkit-mask-image: radial-gradient(ellipse 72% 70% at 50% 50%, #000 70%, transparent 100%);
+  mask-image: radial-gradient(ellipse 72% 70% at 50% 50%, #000 70%, transparent 100%);
+}
+
+/* ---------- Dores ---------- */
+
+.pains__grid,
+.personas__grid {
+  display: grid;
+  gap: 24px;
+}
+
+.pain-card,
+.persona-card {
+  padding: 32px;
+  border-radius: var(--radius-card);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+  color: var(--text-body);
+}
+
+.pain-card svg,
+.persona-card svg {
+  width: 48px;
+  height: 48px;
+}
+
+.pain-card__title,
+.persona-card__title {
+  margin-top: 24px;
+  color: var(--navy-800);
+  font-size: 21px;
+  line-height: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.pain-card__text,
+.persona-card__text {
+  margin-top: 12px;
+  font-size: 15.9px;
+  line-height: 26px;
+}
+
+.personas {
+  background: #f5f8fb;
+}
+
+/* ---------- Estadia em 4 passos ---------- */
+
+.steps__grid--four .step-card__title {
+  font-size: 21px;
+  line-height: 28px;
+}
+
+/* ---------- Parceiro local ---------- */
+
+.partner-local {
+  background: rgba(146, 177, 15, 0.08);
+}
+
+.partner-local__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 880px;
+}
+
+.partner-local__icon {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+}
+
+.partner-local__title {
+  color: var(--navy-800);
+  font-size: 28px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+}
+
+.partner-local__text {
+  margin-top: 12px;
+  color: var(--text-body);
+  font-size: 17px;
+  line-height: 28px;
+}
+
+/* ---------- Formulário curto ---------- */
+
+.partner-card--short {
+  min-height: 0;
+}
+
+@media (min-width: 1100px) {
+  .partner-card--short {
+    min-height: 0;
+  }
+}
+
+.select-input {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9' fill='none'%3E%3Cpath d='M1 1.5L7 7.5L13 1.5' stroke='%230b3b59' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 18px center;
+  cursor: pointer;
+}
+
+.select-input:invalid {
+  color: #8ea2bc;
+}
+
+.select-input option {
+  color: var(--navy-form);
+}
+
+.partner-card--short .consent {
+  margin-top: 4px;
+}
+
+@media (min-width: 1100px) {
+  .hero__media--stay img {
+    max-width: 100%;
+  }
+
+  .pains__grid,
+  .personas__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .steps__grid--four {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .partner-local__inner {
+    flex-direction: row;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .partner-local__title {
+    font-size: 32px;
+  }
+
+  /* Nome | WhatsApp; Perfil | Unidades; Cidade na linha inteira. */
+  .top-fields--stack .field-group:nth-child(5) {
+    grid-column: 1 / -1;
+  }
+}

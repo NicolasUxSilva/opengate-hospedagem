@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Check-in sem chave para hospedagem | OpenGate</title>
+  <meta name="description" content="Check-in sem chave no seu imóvel de temporada. O hóspede recebe um código que só funciona no horário da reserva e entra sozinho, a qualquer hora. Para anfitriões, pousadas e administradoras.">
+  <meta property="og:title" content="Check-in sem chave no seu imóvel de temporada | OpenGate">
+  <meta property="og:description" content="O hóspede recebe um código que só funciona no horário da reserva e entra sozinho, a qualquer hora.">
+  <meta property="og:image" content="assets/img/casa-codigo-acesso.jpg">
+  <meta property="og:locale" content="pt_BR">
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="preload" as="image" href="assets/img/casa-codigo-acesso.jpg">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/sections.css">
+  <link rel="stylesheet" href="css/form.css">
+  <link rel="stylesheet" href="css/hospedagem.css">
+  <!--
+    Meta Pixel "Pixel Site OpenGate" (351480523756375), o mesmo das páginas de integradores e diagnóstico.
+    Envia só o PageView aqui; o Lead é disparado em js/main.js após o envio confirmado do formulário.
+  -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    // Página única: âncoras mudam o histórico e o Pixel contaria cada uma como PageView.
+    fbq.disablePushState = true;
+    fbq('init', '351480523756375');
+    fbq('track', 'PageView');
+  </script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=351480523756375&amp;ev=PageView&amp;noscript=1"></noscript>
+
+  <!-- Ícones (mesma biblioteca da página de integradores + ícones de hospedagem) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="icon-arrow" viewBox="0 0 20 20" fill="none">
+      <path d="M4.16675 10H15.8334" stroke="#06283B" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M10 4.16675L15.8333 10.0001L10 15.8334" stroke="#06283B" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-yes-badge" viewBox="0 0 44 44" fill="none">
+      <path d="M0 18C0 8.05888 8.05888 0 18 0H26C35.9411 0 44 8.05888 44 18V26C44 35.9411 35.9411 44 26 44H18C8.05888 44 0 35.9411 0 26V18Z" fill="#92B110"/>
+      <path d="M30 16L19 27L14 22" stroke="#06283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-no-badge" viewBox="0 0 44 44" fill="none">
+      <path d="M0 18C0 8.05888 8.05888 0 18 0H26C35.9411 0 44 8.05888 44 18V26C44 35.9411 35.9411 44 26 44H18C8.05888 44 0 35.9411 0 26V18Z" fill="#FB2C36"/>
+      <path d="M28 16L16 28" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M16 16L28 28" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 20 24" fill="none">
+      <path d="M16.6666 9L7.49992 18.1667L3.33325 14" stroke="#7C960E" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-cross" viewBox="0 0 20 24" fill="none">
+      <path d="M15 9L5 19" stroke="#FB2C36" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5 9L15 19" stroke="#FB2C36" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-bolt" viewBox="0 0 48 48" fill="none">
+      <path d="M0 18C0 8.05888 8.05888 0 18 0H30C39.9411 0 48 8.05888 48 18V30C48 39.9411 39.9411 48 30 48H18C8.05888 48 0 39.9411 0 30V18Z" fill="#92B110"/>
+      <path d="M16 26.0002C15.8108 26.0008 15.6252 25.9477 15.4649 25.8471C15.3047 25.7465 15.1762 25.6025 15.0945 25.4318C15.0129 25.2611 14.9813 25.0707 15.0035 24.8828C15.0257 24.6949 15.1008 24.5171 15.22 24.3702L25.12 14.1702C25.1943 14.0844 25.2955 14.0265 25.407 14.0059C25.5185 13.9853 25.6337 14.0032 25.7337 14.0567C25.8337 14.1102 25.9126 14.1961 25.9573 14.3003C26.0021 14.4045 26.0101 14.5208 25.98 14.6302L24.06 20.6502C24.0034 20.8017 23.9844 20.9647 24.0046 21.1252C24.0248 21.2857 24.0837 21.4388 24.1761 21.5716C24.2685 21.7043 24.3918 21.8127 24.5353 21.8873C24.6788 21.962 24.8382 22.0007 25 22.0002H32C32.1892 21.9995 32.3748 22.0526 32.535 22.1532C32.6953 22.2538 32.8238 22.3978 32.9054 22.5685C32.9871 22.7392 33.0187 22.9296 32.9965 23.1175C32.9743 23.3054 32.8992 23.4832 32.78 23.6302L22.88 33.8302C22.8057 33.9159 22.7045 33.9738 22.593 33.9944C22.4815 34.0151 22.3663 33.9972 22.2663 33.9437C22.1663 33.8902 22.0874 33.8043 22.0427 33.7001C21.9979 33.5958 21.9899 33.4795 22.02 33.3702L23.94 27.3502C23.9966 27.1986 24.0156 27.0356 23.9954 26.8752C23.9752 26.7147 23.9163 26.5615 23.8239 26.4287C23.7315 26.296 23.6082 26.1876 23.4647 26.113C23.3212 26.0384 23.1617 25.9996 23 26.0002H16Z" stroke="#06283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-clock" viewBox="0 0 48 48" fill="none">
+      <path d="M0 18C0 8.05888 8.05888 0 18 0H30C39.9411 0 48 8.05888 48 18V30C48 39.9411 39.9411 48 30 48H18C8.05888 48 0 39.9411 0 30V18Z" fill="#92B110"/>
+      <path d="M24 34C29.5228 34 34 29.5228 34 24C34 18.4772 29.5228 14 24 14C18.4772 14 14 18.4772 14 24C14 29.5228 18.4772 34 24 34Z" stroke="#06283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M24 18V24L28 26" stroke="#06283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-shield" viewBox="0 0 48 48" fill="none">
+      <path d="M0 18C0 8.05888 8.05888 0 18 0H30C39.9411 0 48 8.05888 48 18V30C48 39.9411 39.9411 48 30 48H18C8.05888 48 0 39.9411 0 30V18Z" fill="#92B110"/>
+      <path d="M32 25C32 30 28.5 32.5 24.34 33.95C24.1222 34.0238 23.8855 34.0202 23.67 33.94C19.5 32.5 16 30 16 25V18C16 17.7347 16.1054 17.4804 16.2929 17.2929C16.4804 17.1053 16.7348 17 17 17C19 17 21.5 15.8 23.24 14.28C23.4519 14.099 23.7214 13.9995 24 13.9995C24.2786 13.9995 24.5481 14.099 24.76 14.28C26.51 15.81 29 17 31 17C31.2652 17 31.5196 17.1053 31.7071 17.2929C31.8946 17.4804 32 17.7347 32 18V25Z" stroke="#06283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M21 24L23 26L27 22" stroke="#06283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-trend" viewBox="0 0 48 48" fill="none">
+      <path d="M0 18C0 8.05888 8.05888 0 18 0H30C39.9411 0 48 8.05888 48 18V30C48 39.9411 39.9411 48 30 48H18C8.05888 48 0 39.9411 0 30V18Z" fill="#92B110"/>
+      <path d="M28 19H34V25" stroke="#06283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M34 19L25.5 27.5L20.5 22.5L14 29" stroke="#06283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-plug" viewBox="0 0 48 48" fill="none">
+      <path d="M0 18C0 8.05888 8.05888 0 18 0H30C39.9411 0 48 8.05888 48 18V30C48 39.9411 39.9411 48 30 48H18C8.05888 48 0 39.9411 0 30V18Z" fill="#92B110"/>
+      <path d="M24 34V29" stroke="#06283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M27 20V14" stroke="#06283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M29 20C29.2652 20 29.5196 20.1054 29.7071 20.2929C29.8946 20.4804 30 20.7348 30 21V25C30 26.0609 29.5786 27.0783 28.8284 27.8284C28.0783 28.5786 27.0609 29 26 29H22C20.9391 29 19.9217 28.5786 19.1716 27.8284C18.4214 27.0783 18 26.0609 18 25V21C18 20.7348 18.1054 20.4804 18.2929 20.2929C18.4804 20.1054 18.7348 20 19 20H29Z" stroke="#06283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M21 20V14" stroke="#06283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-headset" viewBox="0 0 48 48" fill="none">
+      <path d="M0 18C0 8.05888 8.05888 0 18 0H30C39.9411 0 48 8.05888 48 18V30C48 39.9411 39.9411 48 30 48H18C8.05888 48 0 39.9411 0 30V18Z" fill="#92B110"/>
+      <path d="M15 26H18C18.5304 26 19.0391 26.2107 19.4142 26.5858C19.7893 26.9609 20 27.4696 20 28V31C20 31.5304 19.7893 32.0391 19.4142 32.4142C19.0391 32.7893 18.5304 33 18 33H17C16.4696 33 15.9609 32.7893 15.5858 32.4142C15.2107 32.0391 15 31.5304 15 31V24C15 21.6131 15.9482 19.3239 17.636 17.636C19.3239 15.9482 21.6131 15 24 15C26.3869 15 28.6761 15.9482 30.364 17.636C32.0518 19.3239 33 21.6131 33 24V31C33 31.5304 32.7893 32.0391 32.4142 32.4142C32.0391 32.7893 31.5304 33 31 33H30C29.4696 33 28.9609 32.7893 28.5858 32.4142C28.2107 32.0391 28 31.5304 28 31V28C28 27.4696 28.2107 26.9609 28.5858 26.5858C28.9609 26.2107 29.4696 26 30 26H33" stroke="#06283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-key" viewBox="0 0 48 48" fill="none">
+      <path d="M0 18C0 8.05888 8.05888 0 18 0H30C39.9411 0 48 8.05888 48 18V30C48 39.9411 39.9411 48 30 48H18C8.05888 48 0 39.9411 0 30V18Z" fill="#92B110"/>
+      <circle cx="19" cy="28" r="5" stroke="#06283B" stroke-width="2"/>
+      <path d="M22.5 24.5L33 14M29 18L32 21M26 21L28.5 23.5" stroke="#06283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-user-question" viewBox="0 0 48 48" fill="none">
+      <path d="M0 18C0 8.05888 8.05888 0 18 0H30C39.9411 0 48 8.05888 48 18V30C48 39.9411 39.9411 48 30 48H18C8.05888 48 0 39.9411 0 30V18Z" fill="#92B110"/>
+      <circle cx="21" cy="19" r="5" stroke="#06283B" stroke-width="2"/>
+      <path d="M13 34C13 29.5817 16.5817 26 21 26C22.6 26 24.1 26.47 25.35 27.28" stroke="#06283B" stroke-width="2" stroke-linecap="round"/>
+      <path d="M30.5 28.5C30.5 27.1 31.6 26 33 26C34.4 26 35.5 27.1 35.5 28.5C35.5 30 33 30.4 33 32" stroke="#06283B" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="33" cy="35" r="1" fill="#06283B"/>
+    </symbol>
+    <symbol id="icon-home" viewBox="0 0 48 48" fill="none">
+      <path d="M0 18C0 8.05888 8.05888 0 18 0H30C39.9411 0 48 8.05888 48 18V30C48 39.9411 39.9411 48 30 48H18C8.05888 48 0 39.9411 0 30V18Z" fill="#92B110"/>
+      <path d="M14 23L24 15L34 23V33C34 33.5523 33.5523 34 33 34H15C14.4477 34 14 33.5523 14 33V23Z" stroke="#06283B" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M21 34V27H27V34" stroke="#06283B" stroke-width="2" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="icon-building" viewBox="0 0 48 48" fill="none">
+      <path d="M0 18C0 8.05888 8.05888 0 18 0H30C39.9411 0 48 8.05888 48 18V30C48 39.9411 39.9411 48 30 48H18C8.05888 48 0 39.9411 0 30V18Z" fill="#92B110"/>
+      <path d="M15 34V15C15 14.4477 15.4477 14 16 14H28C28.5523 14 29 14.4477 29 15V34M29 21H32C32.5523 21 33 21.4477 33 22V34M13 34H35" stroke="#06283B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M19 19H20M24 19H25M19 24H20M24 24H25M19 29H20M24 29H25" stroke="#06283B" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-briefcase" viewBox="0 0 48 48" fill="none">
+      <path d="M0 18C0 8.05888 8.05888 0 18 0H30C39.9411 0 48 8.05888 48 18V30C48 39.9411 39.9411 48 30 48H18C8.05888 48 0 39.9411 0 30V18Z" fill="#92B110"/>
+      <rect x="13" y="19" width="22" height="14" rx="2" stroke="#06283B" stroke-width="2"/>
+      <path d="M20 19V16.5C20 15.6716 20.6716 15 21.5 15H26.5C27.3284 15 28 15.6716 28 16.5V19M13 25H35" stroke="#06283B" stroke-width="2" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
+
+  <!-- ========== HEADER ========== -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <div class="site-header__brand">
+        <a class="site-header__home" href="https://opengatebr.com">
+          <img class="site-header__logo" src="assets/img/logo-opengate.png" alt="OpenGate" width="140" height="32">
+        </a>
+        <span class="site-header__tag">Hospedagem</span>
+      </div>
+      <a class="btn btn--sm" href="#quero-conhecer" data-cta="header">Quero conhecer</a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ========== HERO (continua o anúncio "Check-in sem chave no seu imóvel de temporada.") ========== -->
+    <section class="hero hero--stay" id="inicio">
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <span class="badge">Para hospedagem</span>
+          <h1 class="hero__title">Check-in sem chave no seu <span class="hl">imóvel de temporada.</span></h1>
+          <p class="hero__lead">Seu hóspede recebe um código que só funciona no horário da reserva e <strong>entra sozinho, a qualquer hora.</strong></p>
+          <p class="pill-check">
+            <svg aria-hidden="true" viewBox="0 0 20 20" fill="none"><path d="M16 6L8.5 13.5L4.5 9.5" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Acesso pelo celular, 24h
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--lg" href="#quero-conhecer" data-cta="hero">
+              Quero conhecer
+              <svg aria-hidden="true"><use href="#icon-arrow"/></svg>
+            </a>
+            <span class="hero__note">Para anfitriões, pousadas e administradoras.</span>
+          </div>
+        </div>
+        <div class="hero__media hero__media--stay">
+          <img src="assets/img/casa-codigo-acesso.jpg" alt="Celular mostrando o código de acesso 4821, com horário de entrada às 14:00 e saída às 12:00, ao lado de uma casa com fechadura eletrônica" width="640" height="526" fetchpriority="high">
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== DORES ========== -->
+    <section class="section pains" id="por-que">
+      <div class="container">
+        <div class="section-head">
+          <span class="badge">Chega de esperar o hóspede</span>
+          <h2>A chave ainda dá trabalho<br class="br-desktop"> na sua operação?</h2>
+        </div>
+        <div class="pains__grid">
+          <article class="pain-card">
+            <svg aria-hidden="true"><use href="#icon-clock"/></svg>
+            <h3 class="pain-card__title">Esperar o hóspede que atrasou</h3>
+            <p class="pain-card__text">O voo atrasou, o trânsito parou, e alguém precisa ficar esperando para entregar a chave.</p>
+          </article>
+          <article class="pain-card">
+            <svg aria-hidden="true"><use href="#icon-key"/></svg>
+            <h3 class="pain-card__title">Cópias de chave circulando</h3>
+            <p class="pain-card__text">Chaves e senhas fixas passam de mão em mão, de hóspede em hóspede, e você perde o controle.</p>
+          </article>
+          <article class="pain-card">
+            <svg aria-hidden="true"><use href="#icon-user-question"/></svg>
+            <h3 class="pain-card__title">Não saber quem entrou</h3>
+            <p class="pain-card__text">Sem registro, fica difícil saber quem acessou o imóvel e em que horário.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== COMO FUNCIONA UMA ESTADIA ========== -->
+    <section class="section section--dark steps" id="como-funciona">
+      <div class="container">
+        <div class="section-head">
+          <span class="badge badge--on-dark">Como funciona</span>
+          <h2>Uma estadia,<br>do começo ao fim</h2>
+          <p>Da reserva ao check-out, sem ninguém precisar estar no imóvel.</p>
+        </div>
+        <ol class="steps__grid steps__grid--four" role="list">
+          <li class="step-card">
+            <p class="step-card__number">01</p>
+            <h3 class="step-card__title">A reserva entra</h3>
+            <p class="step-card__text">Direto com você ou pelo seu PMS, como Stays e Hospedin.</p>
+          </li>
+          <li class="step-card">
+            <p class="step-card__number">02</p>
+            <h3 class="step-card__title">O acesso é criado</h3>
+            <p class="step-card__text">O hóspede recebe um código ou link que só funciona no período da reserva.</p>
+          </li>
+          <li class="step-card">
+            <p class="step-card__number">03</p>
+            <h3 class="step-card__title">O hóspede entra sozinho</h3>
+            <p class="step-card__text">A qualquer hora, pelo celular, sem esperar ninguém.</p>
+          </li>
+          <li class="step-card">
+            <p class="step-card__number">04</p>
+            <h3 class="step-card__title">O acesso expira no check-out</h3>
+            <p class="step-card__text">Terminou a estadia, o código deixa de funcionar. Nada de chave para devolver.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ========== PARA CADA PERFIL ========== -->
+    <section class="section personas" id="para-quem">
+      <div class="container">
+        <div class="section-head">
+          <span class="badge">Para quem é</span>
+          <h2>Feito para quem vive<br class="br-desktop"> de hospedagem</h2>
+        </div>
+        <div class="personas__grid">
+          <article class="persona-card">
+            <svg aria-hidden="true"><use href="#icon-home"/></svg>
+            <h3 class="persona-card__title">Anfitrião</h3>
+            <p class="persona-card__text">Receba hóspedes no seu imóvel de temporada sem precisar estar lá para entregar a chave.</p>
+          </article>
+          <article class="persona-card">
+            <svg aria-hidden="true"><use href="#icon-building"/></svg>
+            <h3 class="persona-card__title">Pousada</h3>
+            <p class="persona-card__text">Libere a entrada dos hóspedes a qualquer hora, sem depender de alguém na recepção.</p>
+          </article>
+          <article class="persona-card">
+            <svg aria-hidden="true"><use href="#icon-briefcase"/></svg>
+            <h3 class="persona-card__title">Administradora</h3>
+            <p class="persona-card__text">Controle o acesso de várias unidades em um só lugar, do piloto à operação multiunidade.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TECNOLOGIA ========== -->
+    <section class="section section--dark features" id="tecnologia">
+      <div class="container">
+        <div class="section-head">
+          <span class="badge badge--on-dark">Tecnologia</span>
+          <h2>Acesso que funciona<br class="br-desktop"> com o que você já usa</h2>
+        </div>
+        <div class="features__grid">
+          <article class="feature-card">
+            <svg aria-hidden="true"><use href="#icon-bolt"/></svg>
+            <h3 class="feature-card__title">Código, link ou permissão temporária</h3>
+            <p class="feature-card__text">Sem chaves, sem complicação.</p>
+          </article>
+          <article class="feature-card">
+            <svg aria-hidden="true"><use href="#icon-plug"/></svg>
+            <h3 class="feature-card__title">Integração com o seu PMS</h3>
+            <p class="feature-card__text">Conecta com Stays e Hospedin e com fechaduras compatíveis, como a TTLock.</p>
+          </article>
+          <article class="feature-card">
+            <svg aria-hidden="true"><use href="#icon-shield"/></svg>
+            <h3 class="feature-card__title">Histórico de acessos</h3>
+            <p class="feature-card__text">Registro completo de quem entrou, com controle por tempo, usuário e unidade.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PARCEIRO LOCAL ========== -->
+    <section class="section partner-local" id="instalacao">
+      <div class="container partner-local__inner">
+        <svg class="partner-local__icon" aria-hidden="true"><use href="#icon-headset"/></svg>
+        <div>
+          <h2 class="partner-local__title">Instalação e suporte feitos por um parceiro da sua região</h2>
+          <p class="partner-local__text">A OpenGate trabalha com integradores parceiros, profissionais de segurança eletrônica que fazem a instalação e o suporte local. Você fala com quem está perto do seu imóvel.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FORMULÁRIO ========== -->
+    <section class="section contact" id="quero-conhecer">
+      <div class="container">
+        <div class="section-head">
+          <span class="badge badge--green">Vamos conversar</span>
+          <h2>Quero conhecer<br class="br-mobile"> a OpenGate</h2>
+          <p>Conte rapidamente sobre a sua hospedagem. Nossa equipe fala com você pelo WhatsApp e indica um parceiro da sua região.</p>
+        </div>
+        <div class="contact__form">
+          <div class="partner-card partner-card--short">
+            <!--
+              Envio por e-mail via Web3Forms (mesma chave da página de integradores; a chave é pública
+              por design). Com JS, js/main.js envia em segundo plano; sem JS, o action envia direto.
+            -->
+            <form class="partner-form" id="stay-form" method="POST" action="https://api.web3forms.com/submit">
+              <input type="hidden" name="access_key" value="fdaaa58c-d398-4d79-8159-344158278c23">
+              <input type="hidden" name="subject" value="Novo interessado — OpenGate Hospedagem (lp-hospedagem)">
+              <input type="hidden" name="pagina" value="lp-hospedagem">
+
+              <div class="top-fields top-fields--stack">
+                <div class="field-group">
+                  <label class="field-label" for="nome">Nome</label>
+                  <input class="text-input" id="nome" type="text" name="nome" autocomplete="name" placeholder="Seu nome" required>
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="whatsapp">WhatsApp</label>
+                  <input class="text-input" id="whatsapp" type="tel" name="whatsapp" inputmode="tel" autocomplete="tel-national" placeholder="(11) 91234-5678" maxlength="20" aria-describedby="whatsapp-hint" required>
+                  <p class="field-hint" id="whatsapp-hint">Com DDD. É por aqui que vamos falar com você.</p>
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="perfil">Você é</label>
+                  <select class="text-input select-input" id="perfil" name="perfil" required>
+                    <option value="" selected disabled>Selecione</option>
+                    <option>Anfitrião (Airbnb ou temporada)</option>
+                    <option>Pousada</option>
+                    <option>Administradora de imóveis de temporada</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="unidades">Quantas unidades você tem?</label>
+                  <select class="text-input select-input" id="unidades" name="unidades" required>
+                    <option value="" selected disabled>Selecione</option>
+                    <option>1</option>
+                    <option>2 a 5</option>
+                    <option>6 a 20</option>
+                    <option>21 a 50</option>
+                    <option>Mais de 50</option>
+                  </select>
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="cidade">Cidade / UF</label>
+                  <input class="text-input" id="cidade" type="text" name="cidade" autocomplete="address-level2" placeholder="Ex.: Florianópolis / SC" maxlength="80" required>
+                </div>
+              </div>
+
+              <!-- Origem do lead (preenchidos por js/utm.js a partir da URL de entrada). -->
+              <input type="hidden" name="utm_source">
+              <input type="hidden" name="utm_medium">
+              <input type="hidden" name="utm_campaign">
+              <input type="hidden" name="utm_content">
+              <input type="hidden" name="utm_term">
+              <input type="hidden" name="origem">
+
+              <label class="consent">
+                <input type="checkbox" name="consentimento" value="Sim" required>
+                <span>Li a <a href="privacidade/" target="_blank" rel="noopener">Política de Privacidade</a> e autorizo a OpenGate e o integrador parceiro da minha região a entrarem em contato comigo.</span>
+              </label>
+
+              <!-- Armadilha anti-spam do Web3Forms: pessoas não veem nem preenchem este campo. -->
+              <input class="form-honeypot" type="text" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+              <button class="submit-button" type="submit">
+                <span data-submit-label>Quero conhecer</span>
+                <span class="arrow" aria-hidden="true">→</span>
+              </button>
+
+              <p class="form-status" data-form-status role="status" aria-live="polite" hidden></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div class="site-footer__logo">
+        <img src="assets/img/logo-opengate-footer.png" alt="OpenGate" width="240" height="55">
+      </div>
+      <p class="site-footer__copy">© 2026 OpenGate — Todos os direitos reservados. · <a href="privacidade/">Política de Privacidade</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
